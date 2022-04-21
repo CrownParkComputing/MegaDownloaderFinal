@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MegaDownloaderFinal.VIewModels
+namespace MegaDownloaderFinal.ViewModels
 {
     public class NodeViewModel : ViewModelBase
     {

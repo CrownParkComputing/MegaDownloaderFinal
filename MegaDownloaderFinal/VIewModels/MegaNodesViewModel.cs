@@ -7,7 +7,7 @@ using System.Windows.Data;
 using CG.Web.MegaApiClient;
 using System.Linq;
 
-namespace MegaDownloaderFinal.VIewModels
+namespace MegaDownloaderFinal.ViewModels
 {
     public class MegaNodesViewModel : ViewModelBase
     {

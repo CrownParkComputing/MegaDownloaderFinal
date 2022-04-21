@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace MegaDownloaderFinal.VIewModels
+namespace MegaDownloaderFinal.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
