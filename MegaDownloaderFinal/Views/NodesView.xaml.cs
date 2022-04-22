@@ -12,15 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MegaDownloaderFinal.ViewModels;
 
 namespace MegaDownloaderFinal.Views
 {
     /// <summary>
     /// Interaction logic for NodesListingView.xaml
     /// </summary>
-    public partial class NodesListingView : UserControl
+    public partial class NodesView : UserControl
     {
-        public NodesListingView()
+        public NodesView()
         {
             InitializeComponent();
         }

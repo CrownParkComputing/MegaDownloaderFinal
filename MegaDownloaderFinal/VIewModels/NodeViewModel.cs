@@ -1,14 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Linq;
+using Telerik.Windows.Controls;
+using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using CG.Web.MegaApiClient;
 
 namespace MegaDownloaderFinal.ViewModels
 {
     public class NodeViewModel : ViewModelBase
     {
         private bool _isSelected;
+        private bool isEmpty;
+        private bool isExpanded;
+        private int count;
+        private ObservableCollection<NodeViewModel> items;
+
+
+        public NodeViewModel()
+        {
+
+
+        }
+        public NodeViewModel(string nodeId, string name, bool empty)
+        {
+            this._itemId = nodeId;
+            this.Name = name;
+            this.isEmpty = empty;
+            this.Items = new ObservableCollection<NodeViewModel>();
+
+        }
+
+
+
         public bool IsSelected
         {
             get
@@ -35,34 +60,6 @@ namespace MegaDownloaderFinal.ViewModels
                 OnPropertyChanged(nameof(Name));
             }
         }
-         
-        private string _size;
-        public string Size
-        {
-            get
-            {
-                return _size;
-            }
-            private set
-            {
-                _size = value;
-                OnPropertyChanged(nameof(Size));
-            }
-        }
-
-        private DateTime _creationDate;
-        public DateTime CreationDate
-        {
-            get
-            {
-                return _creationDate;
-            }
-            private set
-            {
-                _creationDate = value;
-                OnPropertyChanged(nameof(CreationDate));
-            }
-        }
 
         private string _itemId;
         public string ItemId
@@ -78,27 +75,73 @@ namespace MegaDownloaderFinal.ViewModels
             }
         }
 
-        private string _parentId;
-        public string ParentId
+
+        [Display(AutoGenerateField = false)]
+        public bool IsExpanded
         {
             get
             {
-                return _parentId;
+                return this.isExpanded;
             }
-            private set
+            set
             {
-                _parentId = value;
-                OnPropertyChanged(nameof(ParentId));
+                if (this.isExpanded != value)
+                {
+                    this.isExpanded = value;
+
+                    this.LoadChildren();
+
+                    OnPropertyChanged("IsExpanded");
+                }
             }
         }
 
-        public NodeViewModel(string name, string size, DateTime creationDate, string itemId, string parentId)
+        [Display(AutoGenerateField = false)]
+        public bool IsEmpty
         {
-            Name = name;
-            Size = size;
-            CreationDate = creationDate;
-            ItemId = itemId;
-            ParentId = parentId;
+            get
+            {
+                return this.isEmpty;
+            }
+            set
+            {
+                this.isEmpty = value;
+            }
+        }
+
+        [Display(AutoGenerateField = false)]
+        public ObservableCollection<NodeViewModel> Items { get; set; }
+
+        public int Count
+        {
+            get
+            {
+                return this.count;
+            }
+            set
+            {
+                if (value != this.count)
+                {
+                    this.count = value;
+                    this.OnPropertyChanged("Count");
+                }
+            }
+        }
+
+
+        public void LoadChildren()
+        {
+            //if (this.nodes == null)
+            //{
+            //    this.nodes = new ObservableCollection<NodeViewModel>(from f in this.nodeElement.Elements("node")
+            //                                                           select new NodeViewModel(f)
+            //                                                           {
+            //                                                               Name = f.Attribute("Name").Value,
+            //                                                               IsEmpty = bool.Parse(f.Attribute("IsEmpty").Value),
+            //                                                               CreationDate = DateTime.Parse(f.Attribute("CreationDate").Value, System.Globalization.CultureInfo.InvariantCulture),
+            //                                                           });
+            //    this.OnPropertyChanged("Items");
+            //}
         }
     }
 }

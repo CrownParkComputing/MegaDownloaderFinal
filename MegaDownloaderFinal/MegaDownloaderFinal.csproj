@@ -11,4 +11,19 @@
     <PackageReference Include="MegaApiClient" Version="1.10.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Telerik.Windows.Controls">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries\WPF60\Telerik.Windows.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries\WPF60\Telerik.Windows.Controls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Input">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries\WPF60\Telerik.Windows.Controls.Input.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Data">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries\WPF60\Telerik.Windows.Data.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
