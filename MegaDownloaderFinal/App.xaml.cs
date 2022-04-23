@@ -18,7 +18,7 @@ namespace MegaDownloaderFinal
         {
             MainWindow = new MainWindow()
             {
-                DataContext = new NodeDataContext()
+                DataContext = new MainViewModel()
             };
 
             MainWindow.Show();

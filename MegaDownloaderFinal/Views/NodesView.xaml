@@ -13,11 +13,11 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-
+        <TextBox Grid.Row="0" Text="{Binding NodesFilter, UpdateSourceTrigger=PropertyChanged}" />
 
         <telerik:RadTreeListView x:Name="Nodes"
 								 IsReadOnly="True"
-								 ItemsSource="{Binding NodesCollection}"
+								 ItemsSource="{Binding NodesCollectionView}"
                                  IsExpandedBinding="{Binding IsExpanded, Mode=TwoWay}"
 								 Width="600" 
 								 MinHeight="300"

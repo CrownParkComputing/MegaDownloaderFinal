@@ -14,15 +14,9 @@ namespace MegaDownloaderFinal.ViewModels
         private bool _isSelected;
         private bool isEmpty;
         private bool isExpanded;
-        private int count;
         private ObservableCollection<NodeViewModel> items;
 
 
-        public NodeViewModel()
-        {
-
-
-        }
         public NodeViewModel(string nodeId, string name, bool empty)
         {
             this._itemId = nodeId;
@@ -112,21 +106,6 @@ namespace MegaDownloaderFinal.ViewModels
         [Display(AutoGenerateField = false)]
         public ObservableCollection<NodeViewModel> Items { get; set; }
 
-        public int Count
-        {
-            get
-            {
-                return this.count;
-            }
-            set
-            {
-                if (value != this.count)
-                {
-                    this.count = value;
-                    this.OnPropertyChanged("Count");
-                }
-            }
-        }
 
 
         public void LoadChildren()

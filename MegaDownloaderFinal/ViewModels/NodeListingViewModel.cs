@@ -1,19 +1,21 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Text;
+using System.Windows.Data;
 using System.Linq;
-using System.Xml.Linq;
-using Telerik.Windows.Controls;
-using System.ComponentModel.DataAnnotations;
 using CG.Web.MegaApiClient;
 
 namespace MegaDownloaderFinal.ViewModels
 {
-    public class NodeDataContext : ViewModelBase
+    public class NodeListingViewModel : ViewModelBase
     {
         
         private readonly MegaApiClient client = new();
+        private readonly ObservableCollection<NodeViewModel> _nodesCollection;
 
+        public ICollectionView NodesCollectionView { get; }
 
         private string _nodesFilter = string.Empty;
         public string NodesFilter
@@ -26,19 +28,17 @@ namespace MegaDownloaderFinal.ViewModels
             {
                 _nodesFilter = value;
                 OnPropertyChanged(nameof(NodesFilter));
-                //NodesCollectionView.Refresh();
+                NodesCollectionView.Refresh();
             }
         }
         
 
-        ObservableCollection<NodeViewModel>? nodesCollection;
-        public ObservableCollection<NodeViewModel> NodesCollection
+        
+        public NodeListingViewModel()
         {
-            get
             {
-                if (nodesCollection == null)
-                {
-                    nodesCollection = new ObservableCollection<NodeViewModel>();
+                _nodesCollection = new ObservableCollection<NodeViewModel>(); 
+
                     Uri folderLink = new Uri("https://mega.nz/folder/gdozjZxL#uI5SheetsAd-NYKMeRjf2A");
                     client.LoginAnonymous();
                     IEnumerable<INode> nodes = client.GetNodesFromLink(folderLink);
@@ -49,13 +49,17 @@ namespace MegaDownloaderFinal.ViewModels
                     var newparent2 = new NodeViewModel(parent.Id, parent.Name, true);
                     newparent2.Items.Add(new NodeViewModel(parent.Id, parent.Name, false));
                     parents.Items.Add(newparent2);
-                    nodesCollection.Add(parents);
+                    _nodesCollection.Add(parents);
 
                     //GetNodesRecursive(nodes, parent);
                     client.Logout(); 
-                }
-                
-                return nodesCollection;
+
+
+                NodesCollectionView = CollectionViewSource.GetDefaultView(_nodesCollection);
+
+                NodesCollectionView.Filter = FilterNodes;
+                NodesCollectionView.GroupDescriptions.Add(new PropertyGroupDescription(nameof(NodeViewModel.Name)));
+                NodesCollectionView.SortDescriptions.Add(new SortDescription(nameof(NodeViewModel.Name), ListSortDirection.Ascending));
 
             }
         }
