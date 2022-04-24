@@ -13,11 +13,14 @@ namespace MegaDownloaderFinal.ViewModels
     {
         
         private readonly MegaApiClient client = new();
-        private readonly ObservableCollection<NodeViewModel> _nodesCollection;
 
         public ICollectionView NodesCollectionView { get; }
 
         private string _nodesFilter = string.Empty;
+        
+        NodeViewModel _nodeViewModel;
+
+        ObservableCollection<NodeViewModel> _nodesCollection = new();
         public string NodesFilter
         {
             get
@@ -37,60 +40,53 @@ namespace MegaDownloaderFinal.ViewModels
         public NodeListingViewModel()
         {
             {
-                _nodesCollection = new ObservableCollection<NodeViewModel>(); 
 
-                    Uri folderLink = new Uri("https://mega.nz/folder/gdozjZxL#uI5SheetsAd-NYKMeRjf2A");
-                    client.LoginAnonymous();
-                    IEnumerable<INode> nodes = client.GetNodesFromLink(folderLink);
-                    INode parent = nodes.Single(n => n.Type == NodeType.Root);
+                    
+            Uri folderLink = new Uri("https://mega.nz/folder/gdozjZxL#uI5SheetsAd-NYKMeRjf2A");
+            client.LoginAnonymous();
 
-                    var parents = new NodeViewModel(parent.Id, parent.Name, false);
-                    parents.Items.Add(new NodeViewModel(parent.Id, parent.Name, false));
-                    var newparent2 = new NodeViewModel(parent.Id, parent.Name, true);
-                    newparent2.Items.Add(new NodeViewModel(parent.Id, parent.Name, false));
-                    parents.Items.Add(newparent2);
-                    _nodesCollection.Add(parents);
+            IEnumerable<INode> nodes = client.GetNodesFromLink(folderLink);
+            INode parent = nodes.Single(n => n.Type == NodeType.Root);
+            _nodeViewModel = new NodeViewModel(parent.Id, parent.Name, false);
+            GetNodesRecursive(_nodeViewModel, nodes, parent);
 
-                    //GetNodesRecursive(nodes, parent);
-                    client.Logout(); 
+            _nodesCollection.Add(_nodeViewModel);
+            client.Logout(); 
 
 
-                NodesCollectionView = CollectionViewSource.GetDefaultView(_nodesCollection);
+            NodesCollectionView = CollectionViewSource.GetDefaultView(_nodesCollection);
 
-                NodesCollectionView.Filter = FilterNodes;
-                NodesCollectionView.GroupDescriptions.Add(new PropertyGroupDescription(nameof(NodeViewModel.Name)));
-                NodesCollectionView.SortDescriptions.Add(new SortDescription(nameof(NodeViewModel.Name), ListSortDirection.Ascending));
+            NodesCollectionView.Filter = FilterNodes;
+            NodesCollectionView.GroupDescriptions.Add(new PropertyGroupDescription(nameof(NodeViewModel.Name)));
+            NodesCollectionView.SortDescriptions.Add(new SortDescription(nameof(NodeViewModel.Name), ListSortDirection.Ascending));
 
             }
         }
 
-        void GetNodesRecursive(IEnumerable<INode> nodes, INode parent, int level = 0)
+        void GetNodesRecursive(NodeViewModel thisViewModel, IEnumerable<INode> nodes, INode parent, int level = 0)
         {
-            NodeViewModel newparent = new(parent.Id, parent.Name, false);
-            //nodesCollection.Add(newparent);
-            IEnumerable<INode> children = nodes.Where(x => x.ParentId == parent.Id);
             
+            IEnumerable<INode> children = nodes.Where(x => x.ParentId == parent.Id);
+
             foreach (INode child in children)
             {
+                    
                 if (child.Type == NodeType.Directory)
                 {
-                    
-                    GetNodesRecursive(nodes, child, level + 1);
+                    NodeViewModel _nextNodeViewModel = new NodeViewModel(child.Id, child.Name, false);
+                    thisViewModel.Items.Add(_nextNodeViewModel);
+                    GetNodesRecursive(_nextNodeViewModel, nodes, child, level + 1);
+                       
                 }
+                else
+                {
+                    thisViewModel.Items.Add(new NodeViewModel(child.Id, child.Name, false));
+                }
+
             }
         }
 
-        //private List<NodeViewModel> GetNodesFromParentID(IEnumerable<INode> nodes, INode parent)
-        //{
-        //    List<NodeViewModel> tempView = new List<NodeViewModel>();
-        //    IEnumerable<INode> children = nodes.Where(x => x.ParentId == parent.Id);
-        //    foreach (INode child in children)
-        //    {
-        //        tempView.Add(new NodeViewModel(child.Name, child.Size.ToString(), (DateTime)child.CreationDate, child.Id, child.ParentId));
-        //    }
-
-        //    return tempView;
-        //}
+   
 
         private bool FilterNodes(object obj)
         {
