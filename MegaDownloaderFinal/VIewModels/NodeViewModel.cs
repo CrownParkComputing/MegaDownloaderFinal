@@ -19,10 +19,10 @@ namespace MegaDownloaderFinal.ViewModels
 
         public NodeViewModel(string nodeId, string name, bool empty)
         {
-            this._itemId = nodeId;
-            this.Name = name;
-            this.isEmpty = empty;
-            this.Items = new ObservableCollection<NodeViewModel>();
+            _itemId = nodeId;
+            Name = name;
+            isEmpty = empty;
+            Items = new ObservableCollection<NodeViewModel>();
 
         }
 
@@ -75,15 +75,15 @@ namespace MegaDownloaderFinal.ViewModels
         {
             get
             {
-                return this.isExpanded;
+                return isExpanded;
             }
             set
             {
-                if (this.isExpanded != value)
+                if (isExpanded != value)
                 {
-                    this.isExpanded = value;
+                    isExpanded = value;
 
-                    this.LoadChildren();
+                    LoadChildren();
 
                     OnPropertyChanged("IsExpanded");
                 }
@@ -95,11 +95,11 @@ namespace MegaDownloaderFinal.ViewModels
         {
             get
             {
-                return this.isEmpty;
+                return isEmpty;
             }
             set
             {
-                this.isEmpty = value;
+                isEmpty = value;
             }
         }
 
