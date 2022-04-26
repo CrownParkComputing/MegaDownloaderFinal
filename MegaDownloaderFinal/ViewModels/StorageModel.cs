@@ -9,14 +9,14 @@ namespace MegaDownloaderFinal.ViewModels
     { 
         
         
-        private string folderName;
+        private string folderName = "test";
         public string FolderName
         {
             get
             {
                 if (string.IsNullOrEmpty(this.folderName))
                 {
-                    this.folderName = Environment.GetFolderPath(Environment.SpecialFolder.Desktop).ToString();
+                    this.folderName = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 }
                 return this.folderName;
             }
@@ -24,7 +24,7 @@ namespace MegaDownloaderFinal.ViewModels
             {
                 if (this.folderName != value)
                 {
-                    this.folderName = value.ToString();
+                    this.folderName = value;
                     this.OnPropertyChanged("FolderName");
                 }
             }

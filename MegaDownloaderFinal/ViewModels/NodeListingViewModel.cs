@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows.Data;
 using System.Linq;
 using CG.Web.MegaApiClient;
+using Telerik.Windows.Controls;
 
 namespace MegaDownloaderFinal.ViewModels
 {
