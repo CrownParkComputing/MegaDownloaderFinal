@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ViewModels\ViewModelBase.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MegaApiClient" Version="1.10.2" />
   </ItemGroup>
 
