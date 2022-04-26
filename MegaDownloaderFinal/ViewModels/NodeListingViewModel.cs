@@ -18,9 +18,9 @@ namespace MegaDownloaderFinal.ViewModels
 
         private string _nodesFilter = string.Empty;
         
-        NodeViewModel _nodeViewModel;
+        NodesModel _nodeViewModel;
 
-        ObservableCollection<NodeViewModel> _nodesCollection = new();
+        ObservableCollection<NodesModel> _nodesCollection = new();
    
 
         public NodeListingViewModel()
@@ -42,21 +42,21 @@ namespace MegaDownloaderFinal.ViewModels
 
                 NodesCollectionView = CollectionViewSource.GetDefaultView(_nodesCollection);
 
-                NodesCollectionView.GroupDescriptions.Add(new PropertyGroupDescription(nameof(NodeViewModel.Name)));
-                NodesCollectionView.SortDescriptions.Add(new SortDescription(nameof(NodeViewModel.Name), ListSortDirection.Ascending));
+                NodesCollectionView.GroupDescriptions.Add(new PropertyGroupDescription(nameof(NodesModel.Name)));
+                NodesCollectionView.SortDescriptions.Add(new SortDescription(nameof(NodesModel.Name), ListSortDirection.Ascending));
                 NodesCollectionView.Refresh();
 
             }
         }
 
-        void GetNodesRecursive(NodeViewModel thisViewModel, IEnumerable<INode> nodes, INode parent, int level = 0)
+        void GetNodesRecursive(NodesModel thisViewModel, IEnumerable<INode> nodes, INode parent, int level = 0)
         {
             
             IEnumerable<INode> children = nodes.Where(x => x.ParentId == parent.Id);
 
             foreach (INode child in children)
             {
-                NodeViewModel _nextNodeViewModel = new NodeViewModel(child.Id, child.Name, (DateTime)child.CreationDate);
+                NodesModel _nextNodeViewModel = new NodeViewModel(child.Id, child.Name, (DateTime)child.CreationDate);
                 if (child.Type == NodeType.Directory)
                 {
                     

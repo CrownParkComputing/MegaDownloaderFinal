@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MegaDownloaderFinal.ViewModels
 {
-    internal class NodeViewModel
+    internal class ViewModelBase
     {
     }
 }

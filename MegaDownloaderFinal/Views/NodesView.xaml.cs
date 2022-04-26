@@ -31,13 +31,13 @@ namespace MegaDownloaderFinal.Views
         {
             if (e.AddedItems.Count > 0)
             {
-                foreach (NodeViewModel i in e.AddedItems)
+                foreach (NodesModel i in e.AddedItems)
                 {
                     if (i.Name != "WHDLoad")
                     {
                         if (i.Items.Count > 0)
                         {
-                            foreach (NodeViewModel x in i.Items)
+                            foreach (NodesModel x in i.Items)
                             {
                                 Nodes.SelectedItems.Add(x);
                             }
