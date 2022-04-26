@@ -11,18 +11,19 @@ namespace MegaDownloaderFinal.ViewModels
 {
     public class NodeViewModel : ViewModelBase
     {
-        private bool _isSelected;
-        private bool isEmpty;
         private bool isExpanded;
+        private string name;
+        private int count;
+        private bool _isSelected;
         private ObservableCollection<NodeViewModel> items;
 
 
-        public NodeViewModel(string nodeId, string name, bool empty)
+        public NodeViewModel(string nodeId, string name, DateTime createdDate, bool isExpanded = true)
         {
-            _itemId = nodeId;
-            Name = name;
-            isEmpty = empty;
-            Items = new ObservableCollection<NodeViewModel>();
+            this._itemId = nodeId;
+            this.Name = name;
+            this.CreatedDate = (DateTime)createdDate;
+            this.Items = new ObservableCollection<NodeViewModel>();
 
         }
 
@@ -69,58 +70,54 @@ namespace MegaDownloaderFinal.ViewModels
             }
         }
 
+        private DateTime _createdDate;
+        public DateTime CreatedDate
+        {
+            get
+            {
+                return _createdDate;
+            }
+            private set
+            {
+                _createdDate = value;
+                OnPropertyChanged(nameof(CreatedDate));
+            }
+        }
 
-        [Display(AutoGenerateField = false)]
         public bool IsExpanded
         {
             get
             {
-                return isExpanded;
+                return this.isExpanded;
             }
             set
             {
-                if (isExpanded != value)
+                if (value != this.isExpanded)
                 {
-                    isExpanded = value;
-
-                    LoadChildren();
-
-                    OnPropertyChanged("IsExpanded");
+                    this.isExpanded = value;
+                    this.OnPropertyChanged("IsExpanded");
+                }
+            }
+        }
+        public int Count
+        {
+            get
+            {
+                return this.count;
+            }
+            set
+            {
+                if (value != this.count)
+                {
+                    this.count = value;
+                    this.OnPropertyChanged("Count");
                 }
             }
         }
 
-        [Display(AutoGenerateField = false)]
-        public bool IsEmpty
-        {
-            get
-            {
-                return isEmpty;
-            }
-            set
-            {
-                isEmpty = value;
-            }
-        }
 
         [Display(AutoGenerateField = false)]
         public ObservableCollection<NodeViewModel> Items { get; set; }
 
-
-
-        public void LoadChildren()
-        {
-            //if (this.nodes == null)
-            //{
-            //    this.nodes = new ObservableCollection<NodeViewModel>(from f in this.nodeElement.Elements("node")
-            //                                                           select new NodeViewModel(f)
-            //                                                           {
-            //                                                               Name = f.Attribute("Name").Value,
-            //                                                               IsEmpty = bool.Parse(f.Attribute("IsEmpty").Value),
-            //                                                               CreationDate = DateTime.Parse(f.Attribute("CreationDate").Value, System.Globalization.CultureInfo.InvariantCulture),
-            //                                                           });
-            //    this.OnPropertyChanged("Items");
-            //}
-        }
     }
 }

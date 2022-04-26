@@ -21,44 +21,30 @@ namespace MegaDownloaderFinal.ViewModels
         NodeViewModel _nodeViewModel;
 
         ObservableCollection<NodeViewModel> _nodesCollection = new();
-        public string NodesFilter
-        {
-            get
-            {
-                return _nodesFilter;
-            }
-            set
-            {
-                _nodesFilter = value;
-                OnPropertyChanged(nameof(NodesFilter));
-                NodesCollectionView.Refresh();
-            }
-        }
-        
+   
 
-        
         public NodeListingViewModel()
         {
             {
 
                     
-            Uri folderLink = new Uri("https://mega.nz/folder/gdozjZxL#uI5SheetsAd-NYKMeRjf2A");
-            client.LoginAnonymous();
+                Uri folderLink = new Uri("https://mega.nz/folder/gdozjZxL#uI5SheetsAd-NYKMeRjf2A");
+                client.LoginAnonymous();
 
-            IEnumerable<INode> nodes = client.GetNodesFromLink(folderLink);
-            INode parent = nodes.Single(n => n.Type == NodeType.Root);
-            _nodeViewModel = new NodeViewModel(parent.Id, parent.Name, false);
-            GetNodesRecursive(_nodeViewModel, nodes, parent);
+                IEnumerable<INode> nodes = client.GetNodesFromLink(folderLink);
+                INode parent = nodes.Single(n => n.Type == NodeType.Root);
+                _nodeViewModel = new NodeViewModel(parent.Id, parent.Name, (DateTime)parent.CreationDate);
+                GetNodesRecursive(_nodeViewModel, nodes, parent);
 
-            _nodesCollection.Add(_nodeViewModel);
-            client.Logout(); 
+                _nodesCollection.Add(_nodeViewModel);
+                client.Logout(); 
 
 
-            NodesCollectionView = CollectionViewSource.GetDefaultView(_nodesCollection);
+                NodesCollectionView = CollectionViewSource.GetDefaultView(_nodesCollection);
 
-            NodesCollectionView.Filter = FilterNodes;
-            NodesCollectionView.GroupDescriptions.Add(new PropertyGroupDescription(nameof(NodeViewModel.Name)));
-            NodesCollectionView.SortDescriptions.Add(new SortDescription(nameof(NodeViewModel.Name), ListSortDirection.Ascending));
+                NodesCollectionView.GroupDescriptions.Add(new PropertyGroupDescription(nameof(NodeViewModel.Name)));
+                NodesCollectionView.SortDescriptions.Add(new SortDescription(nameof(NodeViewModel.Name), ListSortDirection.Ascending));
+                NodesCollectionView.Refresh();
 
             }
         }
@@ -70,34 +56,22 @@ namespace MegaDownloaderFinal.ViewModels
 
             foreach (INode child in children)
             {
-                    
+                NodeViewModel _nextNodeViewModel = new NodeViewModel(child.Id, child.Name, (DateTime)child.CreationDate);
                 if (child.Type == NodeType.Directory)
                 {
-                    NodeViewModel _nextNodeViewModel = new NodeViewModel(child.Id, child.Name, false);
+                    
                     thisViewModel.Items.Add(_nextNodeViewModel);
                     GetNodesRecursive(_nextNodeViewModel, nodes, child, level + 1);
                        
                 }
                 else
                 {
-                    thisViewModel.Items.Add(new NodeViewModel(child.Id, child.Name, false));
+                    thisViewModel.Items.Add(new NodeViewModel(child.Id, child.Name, (DateTime)child.CreationDate));
                 }
-
             }
         }
 
    
-
-        private bool FilterNodes(object obj)
-        {
-            if (obj is NodeViewModel nodeViewModel)
-            {
-                return nodeViewModel.Name.Contains(NodesFilter, StringComparison.InvariantCultureIgnoreCase) ||
-                    nodeViewModel.ItemId.Contains(NodesFilter, StringComparison.InvariantCultureIgnoreCase);
-            }
-
-            return false;
-        }
 
     }
 }

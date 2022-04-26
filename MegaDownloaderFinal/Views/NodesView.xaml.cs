@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MegaDownloaderFinal.ViewModels;
 
 namespace MegaDownloaderFinal.Views
 {
@@ -20,9 +21,33 @@ namespace MegaDownloaderFinal.Views
     /// </summary>
     public partial class NodesView : UserControl
     {
+        public int selectedItems;
         public NodesView()
         {
             InitializeComponent();
+        }
+
+        private void SelectionChanged(object sender, Telerik.Windows.Controls.SelectionChangeEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
+            {
+                foreach (NodeViewModel i in e.AddedItems)
+                {
+                    if (i.Name != "WHDLoad")
+                    {
+                        if (i.Items.Count > 0)
+                        {
+                            foreach (NodeViewModel x in i.Items)
+                            {
+                                Nodes.SelectedItems.Add(x);
+                            }
+                        }
+                    }
+                }
+            }
+            if (this.Nodes != null)
+                selectedItems =  this.Nodes.SelectedItems.Count;
+
         }
     }
 }
