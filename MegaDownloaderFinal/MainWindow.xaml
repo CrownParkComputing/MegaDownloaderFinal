@@ -6,10 +6,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:MegaDownloaderFinal.Views" xmlns:viewmodels="clr-namespace:MegaDownloaderFinal.ViewModels"
     Title="Collection View Filtering"
-    Width="1024"
-    Height="768"
+    Width="1000"
+    Height="1000"
     mc:Ignorable="d">
-    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="900" >
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center"  Width="900" >
         <Grid MaxWidth="1000" Margin="25 10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
@@ -20,18 +20,19 @@
                 FontSize="28"
                 Text="EAB WHDLoad Stash" />
 
-            <views:NodesView x:Name ="a" Grid.Row="1" Margin="0 5 0 0"
+            <views:NodesView Grid.Row="1" Margin="0 5 0 0"
                 DataContext="{Binding NodeListingViewModel}"
                 FontSize="14" 
                 />
-        </Grid>
 
-        <DockPanel Margin="5,0,5,0" Width="600" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Label Content="Show Updates After:" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <DatePicker Name="myDate"  SelectedDate="2022-04-01" SelectedDateFormat="Long"   HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Button Name="btnDownloadSelected" Content="Download Selected" FontWeight="Bold" Margin="10" HorizontalAlignment="Center" MaxWidth="300" Click="DownloadSelected_Click" VerticalAlignment="Center"/>
-            <TextBox Name ="selectedCount" HorizontalAlignment="Center" Width="100" VerticalAlignment="Center"/>
-        </DockPanel>
+        </Grid>
+        <views:Storage Grid.Row="1" Margin="0 5 0 0"
+                DataContext="{Binding StorageModel}"
+                FontSize="14" 
+                />
+
+
+
 
     </StackPanel>
 </Window>

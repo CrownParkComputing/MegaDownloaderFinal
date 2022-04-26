@@ -18,14 +18,6 @@ namespace MegaDownloaderFinal
             InitializeComponent();
         }
 
-        void DownloadSelected_Click(object sender, RoutedEventArgs e)
-        {
-            int count = 0;
-            NodesView x = this.a;
-            count = x.selectedItems;
-            this.selectedCount.Text = count.ToString();
-
-        }
     }
 }
 

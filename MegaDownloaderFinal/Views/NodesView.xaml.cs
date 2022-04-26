@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Security;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using MegaDownloaderFinal.ViewModels;
+using Telerik.Windows.Controls;
+using Telerik.Windows.Controls.Input;
+using Telerik.Windows.Controls.Navigation;
+using Telerik.Windows.Controls.GridView;
+using Telerik.Windows.Controls.FileDialogs;
+using Telerik.Windows.Data;
 
 namespace MegaDownloaderFinal.Views
 {
@@ -22,10 +20,12 @@ namespace MegaDownloaderFinal.Views
     public partial class NodesView : UserControl
     {
         public int selectedItems;
+        
         public NodesView()
         {
             InitializeComponent();
         }
+
 
         private void SelectionChanged(object sender, Telerik.Windows.Controls.SelectionChangeEventArgs e)
         {
@@ -39,15 +39,39 @@ namespace MegaDownloaderFinal.Views
                         {
                             foreach (NodesModel x in i.Items)
                             {
-                                Nodes.SelectedItems.Add(x);
+                                {
+                                    //x.IsSelected = true;
+                                    Nodes.SelectedItems.Add(x);
+                                }
                             }
                         }
                     }
                 }
             }
-            if (this.Nodes != null)
-                selectedItems =  this.Nodes.SelectedItems.Count;
+
+            if (e.RemovedItems.Count > 0)
+            {
+                foreach (NodesModel i in e.RemovedItems)
+                {
+                    if (i.Name != "WHDLoad")
+                    {
+                        if (i.Items.Count > 0)
+                        {
+                            foreach (NodesModel x in i.Items)
+                            {
+                                {
+                                    //x.IsSelected = false;
+                                    Nodes.SelectedItems.Remove(x);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+                this.selectedCount.Text =  Nodes.SelectedItems.Count.ToString();
 
         }
+
+
     }
 }

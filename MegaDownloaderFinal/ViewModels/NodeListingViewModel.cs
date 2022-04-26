@@ -33,7 +33,7 @@ namespace MegaDownloaderFinal.ViewModels
 
                 IEnumerable<INode> nodes = client.GetNodesFromLink(folderLink);
                 INode parent = nodes.Single(n => n.Type == NodeType.Root);
-                _nodeViewModel = new NodeViewModel(parent.Id, parent.Name, (DateTime)parent.CreationDate);
+                _nodeViewModel = new NodesModel(parent.Id, parent.Name, (DateTime)parent.CreationDate);
                 GetNodesRecursive(_nodeViewModel, nodes, parent);
 
                 _nodesCollection.Add(_nodeViewModel);
@@ -56,7 +56,7 @@ namespace MegaDownloaderFinal.ViewModels
 
             foreach (INode child in children)
             {
-                NodesModel _nextNodeViewModel = new NodeViewModel(child.Id, child.Name, (DateTime)child.CreationDate);
+                NodesModel _nextNodeViewModel = new NodesModel(child.Id, child.Name, (DateTime)child.CreationDate);
                 if (child.Type == NodeType.Directory)
                 {
                     
@@ -66,7 +66,7 @@ namespace MegaDownloaderFinal.ViewModels
                 }
                 else
                 {
-                    thisViewModel.Items.Add(new NodeViewModel(child.Id, child.Name, (DateTime)child.CreationDate));
+                    thisViewModel.Items.Add(new NodesModel(child.Id, child.Name, (DateTime)child.CreationDate));
                 }
             }
         }
