@@ -9,21 +9,20 @@ using CG.Web.MegaApiClient;
 
 namespace MegaDownloaderFinal.ViewModels
 {
-    public class NodeViewModel : ViewModelBase
+    public class NodesModel : ViewModelBase
     {
         private bool isExpanded;
-        private string name;
         private int count;
         private bool _isSelected;
-        private ObservableCollection<NodeViewModel> items;
+        private ObservableCollection<NodesModel> items;
 
 
-        public NodeViewModel(string nodeId, string name, DateTime createdDate, bool isExpanded = true)
+        public NodesModel(string nodeId, string name, DateTime createdDate, bool isExpanded = true)
         {
-            this._itemId = nodeId;
+            this.ItemId = nodeId;
             this.Name = name;
             this.CreatedDate = (DateTime)createdDate;
-            this.Items = new ObservableCollection<NodeViewModel>();
+            this.Items = new ObservableCollection<NodesModel>();
 
         }
 
@@ -117,7 +116,7 @@ namespace MegaDownloaderFinal.ViewModels
 
 
         [Display(AutoGenerateField = false)]
-        public ObservableCollection<NodeViewModel> Items { get; set; }
+        public ObservableCollection<NodesModel> Items { get; set; }
 
     }
 }
