@@ -11,6 +11,9 @@ using Telerik.Windows.Controls.Navigation;
 using Telerik.Windows.Controls.GridView;
 using Telerik.Windows.Controls.FileDialogs;
 using Telerik.Windows.Data;
+using CG.Web.MegaApiClient;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MegaDownloaderFinal.Views
 {
@@ -20,7 +23,10 @@ namespace MegaDownloaderFinal.Views
     public partial class NodesView : UserControl
     {
         public int selectedItems;
-        
+        Defaults thisDefaults = new Defaults();
+        StorageModel sm= new StorageModel();
+        private readonly MegaApiClient client = new();
+
         public NodesView()
         {
             InitializeComponent();
@@ -68,10 +74,62 @@ namespace MegaDownloaderFinal.Views
                     }
                 }
             }
-                this.selectedCount.Text =  Nodes.SelectedItems.Count.ToString();
-
         }
 
 
+
+
+        public class Defaults
+        {
+            public string? SaveDirectory { get; set; }
+            public string? CurrentSaveDirectory { get; set; }
+        }
+
+        private void BtnDownloadAll_Click(object sender, RoutedEventArgs e)
+        {
+            {
+                client.LoginAnonymous();
+                Uri folderLink = new Uri("https://mega.nz/folder/gdozjZxL#uI5SheetsAd-NYKMeRjf2A");
+                IEnumerable<INode> nodes = client.GetNodesFromLink(folderLink); ;
+                 
+                thisDefaults.SaveDirectory = sm.FolderName;
+
+                foreach (NodesModel i in this.Nodes.SelectedItems)
+                {
+                    if (i.Name != "WHDLoad")
+                    {
+                        if (i.Name.Contains("lha"))
+                        {
+                            INode node = nodes.Single(n => n.Id == i.ItemId);
+                            thisDefaults.CurrentSaveDirectory = thisDefaults.SaveDirectory;
+                            if (File.Exists(thisDefaults.SaveDirectory))
+                            {
+                                File.Delete(thisDefaults.SaveDirectory);
+                            }
+
+                            thisDefaults.SaveDirectory = thisDefaults.SaveDirectory + @"\" + node.Name;
+                            client.DownloadFile(node, thisDefaults.SaveDirectory);
+                            thisDefaults.SaveDirectory = thisDefaults.CurrentSaveDirectory;
+                            File.SetCreationTime(thisDefaults.SaveDirectory + @"\" + node.Name, (DateTime)node.CreationDate);
+                            File.SetLastWriteTime(thisDefaults.SaveDirectory + @"\" + node.Name, (DateTime)node.CreationDate);
+
+                        }
+                                            }
+                }
+                //foreach (NodesModel i in this.Nodes.SelectedItems)
+                //{
+                //    if (i.Name != "WHDLoad")
+                //    {
+                //        if (i.Name.Contains("lha"))
+                //        {
+                //            INode node = nodes.Single(n => n.Id == i.ItemId);
+                //            thisDefaults.SaveDirectory = thisDefaults.SaveDirectory + @"\" + node.Name;
+
+                //        }
+                //    }
+                //}
+
+            }
+        }
     }
 }

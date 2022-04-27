@@ -10,8 +10,8 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 
 
     
-    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="850" Height="500" >
-        <Grid>
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="850" Height="600" >
+        <Grid Height="520">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
@@ -51,16 +51,15 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                         <telerik:TreeListViewTableDefinition ItemsSource="{Binding Items}" />
                     </telerik:RadTreeListView.ChildTableDefinitions>
                 </telerik:RadTreeListView>
-            </Border>
-        </Grid>
 
+            </Border>
+
+        </Grid >
         <DockPanel Margin="5,0,5,0" Width="600" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Label Content="Show Updates After:" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <DatePicker Name="myDate"  SelectedDate="2022-04-01" SelectedDateFormat="Long"   HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Button Name="btnDownloadSelected" Content="Download Selected" FontWeight="Bold" Margin="10" HorizontalAlignment="Center" MaxWidth="300"  VerticalAlignment="Center"/>
-            <TextBox Name ="selectedCount" HorizontalAlignment="Center" Width="100" VerticalAlignment="Center"/>
+
+            <Button Name="btnDownloadSelected" Content="Download Selected" FontWeight="Bold" Margin="10" HorizontalAlignment="Center" MaxWidth="300"  VerticalAlignment="Center" Click="BtnDownloadAll_Click"/>
         </DockPanel>
-     
-</StackPanel>
+    </StackPanel>
+
 
 </UserControl>

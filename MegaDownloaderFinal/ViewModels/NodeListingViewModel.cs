@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows.Data;
 using System.Linq;
 using CG.Web.MegaApiClient;
+using Telerik.Windows.Controls;
 
 namespace MegaDownloaderFinal.ViewModels
 {
@@ -17,7 +18,10 @@ namespace MegaDownloaderFinal.ViewModels
         public ICollectionView NodesCollectionView { get; }
 
         private string _nodesFilter = string.Empty;
-        
+        public INode root;
+        public IEnumerable<INode> nodes;
+
+
         NodesModel _nodeViewModel;
 
         ObservableCollection<NodesModel> _nodesCollection = new();
@@ -25,16 +29,14 @@ namespace MegaDownloaderFinal.ViewModels
 
         public NodeListingViewModel()
         {
-            {
-
-                    
+            {                    
                 Uri folderLink = new Uri("https://mega.nz/folder/gdozjZxL#uI5SheetsAd-NYKMeRjf2A");
                 client.LoginAnonymous();
 
-                IEnumerable<INode> nodes = client.GetNodesFromLink(folderLink);
-                INode parent = nodes.Single(n => n.Type == NodeType.Root);
-                _nodeViewModel = new NodesModel(parent.Id, parent.Name, (DateTime)parent.CreationDate);
-                GetNodesRecursive(_nodeViewModel, nodes, parent);
+                nodes = client.GetNodesFromLink(folderLink);
+                root = nodes.Single(n => n.Type == NodeType.Root);
+                _nodeViewModel = new NodesModel(root.Id, root.Name, (DateTime)root.CreationDate);
+                GetNodesRecursive(_nodeViewModel, nodes, root);
 
                 _nodesCollection.Add(_nodeViewModel);
                 client.Logout(); 
@@ -70,6 +72,8 @@ namespace MegaDownloaderFinal.ViewModels
                 }
             }
         }
+
+
 
    
 

@@ -6,17 +6,17 @@ using Telerik.Windows.Controls;
 namespace MegaDownloaderFinal.ViewModels
 {
     public class StorageModel : ViewModelBase
-    { 
-        
-        
-        private string folderName;
+    {
+
+
+        private string folderName = "E:/Megasync";
         public string FolderName
         {
             get
             {
                 if (string.IsNullOrEmpty(this.folderName))
                 {
-                    this.folderName = Environment.GetFolderPath(Environment.SpecialFolder.Desktop).ToString();
+                    this.folderName = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 }
                 return this.folderName;
             }
@@ -24,7 +24,7 @@ namespace MegaDownloaderFinal.ViewModels
             {
                 if (this.folderName != value)
                 {
-                    this.folderName = value.ToString();
+                    this.folderName = value;
                     this.OnPropertyChanged("FolderName");
                 }
             }
