@@ -17,21 +17,21 @@ namespace MegaDownloaderFinal.Views
     /// <summary>
     /// Interaction logic for Storage.xaml
     /// </summary>
-    public partial class Storage : UserControl
+    public partial class StorageView : UserControl
     {
         StorageModel sModel;
-        public Storage()
+        public StorageView()
         {
             InitializeComponent();
-            sModel = new StorageModel();
-            this.DataContext = sModel;
+
         }
 
         private void SelectFolderClick(object sender, RoutedEventArgs e)
         {
             RadOpenFolderDialog openFolderDialog = new RadOpenFolderDialog();
             openFolderDialog.ShowDialog();
-            this.sModel.FolderName = openFolderDialog.FileName;
+            //sModel.FolderName = openFolderDialog.FileName;
+            this.DownloadFolder.Content = openFolderDialog.FileName;
         }
     }
 }

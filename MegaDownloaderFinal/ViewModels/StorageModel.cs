@@ -6,10 +6,10 @@ using Telerik.Windows.Controls;
 namespace MegaDownloaderFinal.ViewModels
 {
     public class StorageModel : ViewModelBase
-    { 
-        
-        
-        private string folderName = "test";
+    {
+
+
+        private string folderName = "E:/Megasync";
         public string FolderName
         {
             get
