@@ -9,7 +9,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     mc:Ignorable="d">
 
 
-    
+
     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="850" Height="600" >
         <Grid Height="520">
             <Grid.RowDefinitions>
@@ -35,7 +35,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 								 RowIndicatorVisibility="Collapsed"
                                  AutoGenerateColumns="False"
 								 ColumnWidth="*"
-                                 IsFilteringAllowed="True" CanUserDeleteRows="False" CanUserInsertRows="False" SelectionMode="Multiple" SelectionChanged="SelectionChanged" Margin="0,0,-14,0" VerticalAlignment="Top">
+                                 IsFilteringAllowed="True" SelectionMode="Multiple" SelectionChanged="SelectionChanged" Filtered="Nodes_Filtered" Foreground="Blue">
                     <telerik:RadTreeListView.AlternateRowStyleSelector>
                         <StyleSelector/>
                     </telerik:RadTreeListView.AlternateRowStyleSelector>

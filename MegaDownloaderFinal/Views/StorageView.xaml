@@ -16,48 +16,66 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <DockPanel Margin="5,0,5,0" Width="600" VerticalAlignment="Center" HorizontalAlignment="Center">
-        <Border Grid.Row="0"
+
+
+    <StackPanel>
+        <DockPanel Margin="5,0,5,0" Width="600" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Border Grid.Row="0"
                 Padding="9 14" 
                 BorderBrush="{telerik:FluentResource ResourceKey=BasicBrush}"
                 BorderThickness="1">
-            <Grid>
-                <Grid.Resources>
-                    <ResourceDictionary>
-                        <ResourceDictionary.MergedDictionaries>
-                            <ResourceDictionary Source="/Telerik.Windows.Controls;component/Themes/FontResources.xaml"/>
-                        </ResourceDictionary.MergedDictionaries>
-                    </ResourceDictionary>
-                </Grid.Resources>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Border Padding="7"
+                <Grid>
+                    <Grid.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="/Telerik.Windows.Controls;component/Themes/FontResources.xaml"/>
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Border Padding="7"
                         VerticalAlignment="Stretch"
                         Margin="0 0 10 0"
                         DataContext="Storage"
                         BorderBrush="{telerik:FluentResource ResourceKey=BasicBrush}"
-                        BorderThickness="1">
+                        BorderThickness="1" Background="#FFF4F5F9"></Border>
                     <telerik:Label Name="DownloadFolder"
                                VerticalAlignment="Center"
-                               MaxWidth="500">
-                        <telerik:Label.DataContext>
-                            <ViewModels:StorageModel/>
-                        </telerik:Label.DataContext>
+                               MaxWidth="500"
+                                Content="{Binding FolderName}">
+
                     </telerik:Label>
-                </Border>
-                <telerik:RadButton Grid.Column="1"
+
+                    <telerik:RadButton Grid.Column="1"
                                    Click="SelectFolderClick"
-                                   Style="{DynamicResource QSFAccentButtonStyle}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{StaticResource GlyphFolderOpen}"
+                                   Style="{DynamicResource QSFAccentButtonStyle}" BorderBrush="#FF23310B">
+                        <telerik:RadButton.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="White"/>
+                                <GradientStop Color="Gainsboro" Offset="0.5"/>
+                                <GradientStop Color="#FFADADAD" Offset="0.5"/>
+                                <GradientStop Color="#FFE2DB26" Offset="1"/>
+                            </LinearGradientBrush>
+                        </telerik:RadButton.Background>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{StaticResource GlyphFolderOpen}"
                                    FontFamily="{StaticResource TelerikWebUI}" 
                                    FontSize="16"/>
-                        <TextBlock Margin="5 0 0 0" Text="Save To..." />
-                    </StackPanel>
-                </telerik:RadButton>
-            </Grid>
-        </Border>
-    </DockPanel>
+                            <TextBlock Margin="5 0 0 0" Text="Save To..." Foreground="#FF1532A5" />
+                        </StackPanel>
+                    </telerik:RadButton>
+                </Grid>
+            </Border>
+        </DockPanel>
+        <DockPanel>
+            <telerik:Label Name="DownloadMessageInfo"
+                               VerticalAlignment="Center"
+                               MaxWidth="500"
+                                Content="{Binding DownloadMessage}">
+            </telerik:Label>
+        </DockPanel>
+    </StackPanel>
 </UserControl>

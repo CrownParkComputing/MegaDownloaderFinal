@@ -13,13 +13,13 @@ namespace MegaDownloaderFinal.ViewModels
     public class NodeListingViewModel : ViewModelBase
     {
         
-        private readonly MegaApiClient client = new();
+        private readonly MegaApiClient client = new MegaApiClient();
 
         public ICollectionView NodesCollectionView { get; }
 
         private string _nodesFilter = string.Empty;
         public INode root;
-        public IEnumerable<INode> nodes;
+        public IEnumerable<INode> nodes { get; set; }
 
 
         NodesModel _nodeViewModel;

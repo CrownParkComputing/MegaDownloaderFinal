@@ -19,7 +19,6 @@ namespace MegaDownloaderFinal.Views
     /// </summary>
     public partial class StorageView : UserControl
     {
-        StorageModel sModel;
         public StorageView()
         {
             InitializeComponent();
@@ -28,10 +27,13 @@ namespace MegaDownloaderFinal.Views
 
         private void SelectFolderClick(object sender, RoutedEventArgs e)
         {
+            StorageModel sm = new StorageModel();
             RadOpenFolderDialog openFolderDialog = new RadOpenFolderDialog();
             openFolderDialog.ShowDialog();
-            //sModel.FolderName = openFolderDialog.FileName;
-            this.DownloadFolder.Content = openFolderDialog.FileName;
+            sm.FolderName = openFolderDialog.FileName;
+            this.DownloadFolder.Content = sm.FolderName;
+
         }
+
     }
 }
