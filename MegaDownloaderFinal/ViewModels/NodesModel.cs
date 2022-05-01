@@ -14,14 +14,13 @@ namespace MegaDownloaderFinal.ViewModels
         private bool isExpanded;
         private int count;
         private bool _isSelected;
-        private ObservableCollection<NodesModel> items;
 
 
-        public NodesModel(string nodeId, string name, DateTime createdDate, bool isExpanded = true)
+        public NodesModel(string nodeId, string name, DateTime? createdDate)
         {
-            this.ItemId = nodeId;
-            this.Name = name;
-            this.CreatedDate = (DateTime)createdDate;
+            if (nodeId != null) this.ItemId = nodeId;
+            if (name != null) this.Name = name;
+            if (createdDate != null) this.CreatedDate = (DateTime)createdDate;
             this.Items = new ObservableCollection<NodesModel>();
 
         }

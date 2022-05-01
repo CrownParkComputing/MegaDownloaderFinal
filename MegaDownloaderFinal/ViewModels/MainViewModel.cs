@@ -7,13 +7,11 @@ namespace MegaDownloaderFinal.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        public NodeListingViewModel NodeListingViewModel { get; }
-        public StorageModel StorageModel { get; }
+        public NodesViewModel NodesViewModel { get; }
 
         public MainViewModel()
         {
-            NodeListingViewModel = new NodeListingViewModel();
-            StorageModel = new StorageModel();  
+            NodesViewModel = new NodesViewModel(); 
         }
     }
 }

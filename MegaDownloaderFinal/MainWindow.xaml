@@ -8,8 +8,8 @@
     Title="Collection View Filtering"
     Width="1000"
     Height="1000"
-    mc:Ignorable="d">
-    <StackPanel Orientation="Vertical" HorizontalAlignment="Center"  Width="900" >
+    mc:Ignorable="d" Background="#FF3A557B">
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center"  Width="900" Background="#FF99A4DC" >
         <Grid MaxWidth="1000" Margin="25 10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
@@ -18,23 +18,14 @@
 
             <TextBlock Grid.Row="0"
                 FontSize="28"
-                Text="EAB WHDLoad Stash" />
+                Text="EAB WHDLoad Stash" VerticalAlignment="Center" />
 
             <views:NodesView Grid.Row="1" Margin="0 5 0 0"
-                DataContext="{Binding NodeListingViewModel}"
-                FontSize="14" Height="600" 
+                DataContext="{Binding NodesViewModel}"
                 />
 
         </Grid>
 
        
-        <views:StorageView Grid.Row="1" Margin="0 5 0 0"
-                    DataContext="{Binding StorageModel}"
-                FontSize="14" 
-                />
-
-
-
-
     </StackPanel>
 </Window>

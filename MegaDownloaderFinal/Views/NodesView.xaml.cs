@@ -5,15 +5,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MegaDownloaderFinal.ViewModels;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows.Threading;
 using Telerik.Windows.Controls;
 using Telerik.Windows.Controls.Input;
 using Telerik.Windows.Controls.Navigation;
 using Telerik.Windows.Controls.GridView;
 using Telerik.Windows.Controls.FileDialogs;
-using Telerik.Windows.Data;
-using CG.Web.MegaApiClient;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MegaDownloaderFinal.Views
 {
@@ -22,14 +21,14 @@ namespace MegaDownloaderFinal.Views
     /// </summary>
     public partial class NodesView : UserControl
     {
-        public int selectedItems;
-        Defaults thisDefaults = new Defaults();
-        StorageModel sm= new StorageModel();
-        private readonly MegaApiClient client = new();
-
+        private DispatcherTimer timer;
+        private NodesViewModel nvm = new NodesViewModel();
         public NodesView()
         {
             InitializeComponent();
+            this.timer = new DispatcherTimer();
+            this.timer.Interval = TimeSpan.FromMilliseconds(20.0);
+            this.timer.Tick += new EventHandler(this.Timer_Tick);
         }
 
 
@@ -46,11 +45,16 @@ namespace MegaDownloaderFinal.Views
                             foreach (NodesModel x in i.Items)
                             {
                                 {
-                                    //x.IsSelected = true;
                                     Nodes.SelectedItems.Add(x);
                                 }
                             }
                         }
+                    }
+                    else
+                    {
+
+                        Nodes.SelectedItems.Remove(i);
+
                     }
                 }
             }
@@ -66,7 +70,6 @@ namespace MegaDownloaderFinal.Views
                             foreach (NodesModel x in i.Items)
                             {
                                 {
-                                    //x.IsSelected = false;
                                     Nodes.SelectedItems.Remove(x);
                                 }
                             }
@@ -77,59 +80,81 @@ namespace MegaDownloaderFinal.Views
         }
 
 
-
-
-        public class Defaults
+        private void Nodes_Filtered(object sender, Telerik.Windows.Controls.GridView.GridViewFilteredEventArgs e)
         {
-            public string? SaveDirectory { get; set; }
-            public string? CurrentSaveDirectory { get; set; }
+
+             
+            foreach (NodesModel x in Nodes.Items)
+            {
+                {
+                    if (x.Name.Contains("lha"))
+                    { 
+                        Nodes.SelectedItems.Add(x);
+                    }
+                    if (x.Name == "WHDLoad")
+                    {
+                        Nodes.SelectedItems.Remove(x);
+                    }
+                }
+            }
         }
 
-        private void BtnDownloadAll_Click(object sender, RoutedEventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
+            this.RadProgressBar1.Value += 1;
+
+        }
+
+        private void RadProgressBar1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            int value = Convert.ToInt32((RadProgressBar1.Value / (RadProgressBar1.Maximum - RadProgressBar1.Minimum)) * 100);
+            PercentageLabel.Content = value.ToString() + " %";
+            if (this.RadProgressBar1.Value == this.RadProgressBar1.Maximum)
             {
-                client.LoginAnonymous();
-                Uri folderLink = new Uri("https://mega.nz/folder/gdozjZxL#uI5SheetsAd-NYKMeRjf2A");
-                IEnumerable<INode> nodes = client.GetNodesFromLink(folderLink); ;
-                 
-                thisDefaults.SaveDirectory = sm.FolderName;
+                this.ButtonStart.IsEnabled = false;
+                this.ButtonRestart.IsEnabled = true;
 
-                foreach (NodesModel i in this.Nodes.SelectedItems)
-                {
-                    if (i.Name != "WHDLoad")
-                    {
-                        if (i.Name.Contains("lha"))
-                        {
-                            INode node = nodes.Single(n => n.Id == i.ItemId);
-                            thisDefaults.CurrentSaveDirectory = thisDefaults.SaveDirectory;
-                            if (File.Exists(thisDefaults.SaveDirectory))
-                            {
-                                File.Delete(thisDefaults.SaveDirectory);
-                            }
-
-                            thisDefaults.SaveDirectory = thisDefaults.SaveDirectory + @"\" + node.Name;
-                            client.DownloadFile(node, thisDefaults.SaveDirectory);
-                            thisDefaults.SaveDirectory = thisDefaults.CurrentSaveDirectory;
-                            File.SetCreationTime(thisDefaults.SaveDirectory + @"\" + node.Name, (DateTime)node.CreationDate);
-                            File.SetLastWriteTime(thisDefaults.SaveDirectory + @"\" + node.Name, (DateTime)node.CreationDate);
-
-                        }
-                                            }
-                }
-                //foreach (NodesModel i in this.Nodes.SelectedItems)
-                //{
-                //    if (i.Name != "WHDLoad")
-                //    {
-                //        if (i.Name.Contains("lha"))
-                //        {
-                //            INode node = nodes.Single(n => n.Id == i.ItemId);
-                //            thisDefaults.SaveDirectory = thisDefaults.SaveDirectory + @"\" + node.Name;
-
-                //        }
-                //    }
-                //}
-
+                this.timer.Stop();
+                this.LoadingLabel.Content = "Download Complete ";
             }
+        }
+        private void Start_Click(object sender, RoutedEventArgs e)
+        {
+
+            foreach (NodesModel i in Nodes.SelectedItems)
+            {
+                if (i.Name.Contains("lha"))
+                {
+                    if (this.RadProgressBar1.Value < this.RadProgressBar1.Maximum)
+                    {
+                        this.ButtonStart.IsEnabled = false;
+                        this.ButtonRestart.IsEnabled = false;
+                        this.timer.Start();
+                    }
+                    this.LoadingLabel.Content = "Currently Downloading : " + i.Name;
+                    nvm.DownloadFolderLinkContents(i);
+                }
+            }
+
+
+
+        }
+        private void Restart_Click(object sender, RoutedEventArgs e)
+        {
+            this.ButtonStart.IsEnabled = true;
+
+            this.LoadingLabel.Content = "Downloading...";
+            RadProgressBar1.Value = 0;
+            this.timer.Stop();
+        }
+
+        private void SelectFolderClick(object sender, RoutedEventArgs e)
+        {
+            RadOpenFolderDialog openFolderDialog = new RadOpenFolderDialog();
+            openFolderDialog.ShowDialog();
+            nvm.FolderName = openFolderDialog.FileName;
+            this.DownloadFolder.Content = nvm.FolderName;
+
         }
     }
 }
