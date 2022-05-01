@@ -5,7 +5,12 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>R.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="R.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MegaApiClient" Version="1.10.2" />

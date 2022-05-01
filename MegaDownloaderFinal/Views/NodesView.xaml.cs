@@ -8,6 +8,7 @@ using MegaDownloaderFinal.ViewModels;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
+using System.Threading.Tasks;
 using Telerik.Windows.Controls;
 using Telerik.Windows.Controls.Input;
 using Telerik.Windows.Controls.Navigation;
@@ -21,14 +22,10 @@ namespace MegaDownloaderFinal.Views
     /// </summary>
     public partial class NodesView : UserControl
     {
-        private DispatcherTimer timer;
         private NodesViewModel nvm = new NodesViewModel();
         public NodesView()
         {
             InitializeComponent();
-            this.timer = new DispatcherTimer();
-            this.timer.Interval = TimeSpan.FromMilliseconds(20.0);
-            this.timer.Tick += new EventHandler(this.Timer_Tick);
         }
 
 
@@ -99,11 +96,6 @@ namespace MegaDownloaderFinal.Views
             }
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            this.RadProgressBar1.Value += 1;
-
-        }
 
         private void RadProgressBar1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -113,39 +105,52 @@ namespace MegaDownloaderFinal.Views
             {
                 this.ButtonStart.IsEnabled = false;
                 this.ButtonRestart.IsEnabled = true;
+                this.GetFolderButton.IsEnabled = true;
+                Nodes.IsBusy = false;
 
-                this.timer.Stop();
                 this.LoadingLabel.Content = "Download Complete ";
             }
         }
-        private void Start_Click(object sender, RoutedEventArgs e)
+        private void Start_Click(object sender, RoutedEventArgs e)  
+        {
+            RadProgressBar1.Maximum = Nodes.SelectedItems.Count;
+            if (this.RadProgressBar1.Value < this.RadProgressBar1.Maximum)
+            {
+                this.Nodes.IsBusy = true;
+                this.ButtonStart.IsEnabled = false;
+                this.ButtonRestart.IsEnabled = false;
+                this.GetFolderButton.IsEnabled = false;
+            }
+            Task.Factory.StartNew(() => DownloadSelected());
+
+            
+        }
+
+        private void DownloadSelected()
         {
 
             foreach (NodesModel i in Nodes.SelectedItems)
             {
                 if (i.Name.Contains("lha"))
                 {
-                    if (this.RadProgressBar1.Value < this.RadProgressBar1.Maximum)
-                    {
-                        this.ButtonStart.IsEnabled = false;
-                        this.ButtonRestart.IsEnabled = false;
-                        this.timer.Start();
-                    }
-                    this.LoadingLabel.Content = "Currently Downloading : " + i.Name;
+
                     nvm.DownloadFolderLinkContents(i);
                 }
-            }
 
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    this.LoadingLabel.Content = "Downloading : " + i.Name;
+                    this.RadProgressBar1.Value += 1;
+                }), DispatcherPriority.Background);
+            }
 
 
         }
         private void Restart_Click(object sender, RoutedEventArgs e)
         {
             this.ButtonStart.IsEnabled = true;
-
             this.LoadingLabel.Content = "Downloading...";
             RadProgressBar1.Value = 0;
-            this.timer.Stop();
         }
 
         private void SelectFolderClick(object sender, RoutedEventArgs e)
