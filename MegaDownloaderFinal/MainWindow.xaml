@@ -21,20 +21,11 @@
                 Text="EAB WHDLoad Stash" VerticalAlignment="Center" />
 
             <views:NodesView Grid.Row="1" Margin="0 5 0 0"
-                DataContext="{Binding NodeListingViewModel}"
-                FontSize="14" Height="600" 
+                DataContext="{Binding NodesViewModel}"
                 />
 
         </Grid>
 
        
-        <views:StorageView Grid.Row="1" Margin="0 5 0 0"
-                    DataContext="{Binding StorageModel}"
-                FontSize="14" 
-                />
-
-
-
-
     </StackPanel>
 </Window>
