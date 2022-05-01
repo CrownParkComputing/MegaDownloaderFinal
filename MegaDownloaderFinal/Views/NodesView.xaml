@@ -64,17 +64,19 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         </Grid>
 
         <Grid Margin="30">
-            <StackPanel VerticalAlignment="Center" Width="280">
+            <StackPanel VerticalAlignment="Center" Width="350">
                 <StackPanel Orientation="Horizontal">
                     <telerik:Label x:Name="LoadingLabel" Content="Pres Start to Download Selected" FontSize="13"
 						        HorizontalAlignment="Left" FontFamily="Segoe UI" />
-                    <telerik:Label x:Name="PercentageLabel" Content="" FontSize="13"
-						        HorizontalAlignment="Right" FontFamily="Segoe UI" />
                 </StackPanel>
-                <telerik:RadProgressBar x:Name="RadProgressBar1" Minimum="0" Maximum="100"
-					        Value="{Binding Value, Mode=TwoWay}"
-					        ValueChanged="RadProgressBar1_ValueChanged" Width="280" Height="6"
-					        Margin="0,20" />
+                <StackPanel Orientation="Horizontal">
+                    <telerik:RadProgressBar x:Name="RadProgressBar1" Minimum="0" Maximum="100"
+					            Value="{Binding Value, Mode=TwoWay}"
+					            ValueChanged="RadProgressBar1_ValueChanged" Width="280" Height="6"
+					            Margin="0,20" />
+                    <telerik:Label x:Name="PercentageLabel" Content="" FontSize="13"
+						            HorizontalAlignment="Right" FontFamily="Segoe UI" />
+                </StackPanel>
                 <StackPanel Width="Auto" Orientation="Horizontal" HorizontalAlignment="Center"
 					VerticalAlignment="Center" Grid.Row="1">
                     <telerik:RadButton x:Name="ButtonStart" Click="Start_Click" Width="80"
@@ -119,6 +121,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 
                         <telerik:RadButton Grid.Column="1"
                                    Click="SelectFolderClick"
+                                           Name="GetFolderButton"
                                    Style="{DynamicResource QSFAccentButtonStyle}" BorderBrush="#FF23310B">
                             <telerik:RadButton.Background>
                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
