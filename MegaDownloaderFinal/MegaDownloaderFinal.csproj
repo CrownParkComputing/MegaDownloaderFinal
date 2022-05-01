@@ -12,12 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Telerik.Core">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for UWP R1 2022\Binaries\Telerik.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Data">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for UWP R1 2022\Binaries\Telerik.Data.dll</HintPath>
-    </Reference>
     <Reference Include="Telerik.Windows.Controls">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries\WPF60\Telerik.Windows.Controls.dll</HintPath>
     </Reference>
@@ -36,6 +30,21 @@
     <Reference Include="Telerik.Windows.Data">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R1 2022\Binaries\WPF60\Telerik.Windows.Data.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -35,6 +35,7 @@ namespace MegaDownloaderFinal.ViewModels
             {                    
                 Uri folderLink = new Uri("https://mega.nz/folder/gdozjZxL#uI5SheetsAd-NYKMeRjf2A");
                 client.LoginAnonymous();
+                this.FolderName = Properties.Settings.Default.DownloadPath;
                 nodes = client.GetNodesFromLink(folderLink);
                 root = nodes.Single(n => n.Type == NodeType.Root);
                 _nodeViewModel = new NodesModel(root.Id, root.Name, (DateTime)root.CreationDate);
@@ -68,6 +69,9 @@ namespace MegaDownloaderFinal.ViewModels
                 if (this.folderName != value)
                 {
                     this.folderName = value;
+
+                    Properties.Settings.Default.DownloadPath = value;
+                    Properties.Settings.Default.Save();
                     this.OnPropertyChanged(nameof(FolderName));
                 }
             }
