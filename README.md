@@ -1,8 +1,16 @@
-WHDLoad Mega Cloud Downloader Tool
+
+# Retroplays Mega Downloader Tool
+
+This tool will show you Retroplays Mega account stash for you to browse, filter or download from. 
 
 
-Main Features
-Uses Retroplays Mega Storage Stash
-Flexible on where files are saved to.
-Supports the beta WHDLoad sets and WHDLoad disk magazines
-Filter by Date / Name etc
+
+
+
+-Download driectly from Retroplays MEga Cloud Storage stash.
+
+-Always up to date.
+
+-Can filter / search by name, date etc. 
+
+-Remembers your save folder path.
